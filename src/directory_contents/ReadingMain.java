@@ -1,5 +1,6 @@
 package directory_contents;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -16,7 +17,8 @@ public class ReadingMain {
 */
         DirectoryStream.Filter<Path> filter = p -> Files.isRegularFile(p);
 
-        Path directory = FileSystems.getDefault().getPath("Examples\\Dir2");
+        //Path directory = FileSystems.getDefault().getPath("Examples\\Dir2");
+        Path directory = FileSystems.getDefault().getPath("Examples" + File.separator + "Dir2");
 
         try (DirectoryStream<Path> contents = Files.newDirectoryStream(directory, filter)) {
             for (Path file : contents) {
@@ -27,6 +29,34 @@ public class ReadingMain {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+
+//        String separator = File.separator;
+//        System.out.println(separator);
+//        separator = FileSystems.getDefault().getSeparator();
+//        System.out.println(separator);
+
+        try{
+            Path tempFile = Files.createTempFile("mojplik", ".jjd");
+            System.out.println("Scieżka do mojego pliku: " + tempFile.toAbsolutePath());
+
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        Iterable<FileStore> stores = FileSystems.getDefault().getFileStores();
+        for (FileStore store : stores){
+            System.out.println("Nazwa dysku i jego oznaczenie" + store);
+            System.out.println("file store name: " + store.name());
+        }
+
+        System.out.println("+ + +");
+
+        Iterable<Path> rootPaths = FileSystems.getDefault().getRootDirectories();
+        for (Path path : rootPaths){
+            System.out.println(path);
+        }
+
     }
 
 
