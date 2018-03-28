@@ -69,6 +69,16 @@ public class File_Channel {
 
             System.out.println("int1 = " + readBuffer.getInt());
 
+            RandomAccessFile copyFile = new RandomAccessFile("data.dat", "rw");
+            FileChannel copyChannel = copyFile.getChannel();
+//            long numTransferred = copyChannel.transferFrom(channel, 0, channel.size());
+            long numTransferred = channel.transferTo(0, channel.size(), copyChannel);
+            System.out.println("Num transferred " + numTransferred);
+
+            channel.close();
+            ra.close();
+            copyChannel.close();
+/*
             byte[] outputString = "Hello, World!".getBytes();
             long str1Pos = 0;
             long newInt1Pos = outputString.length;
@@ -99,6 +109,8 @@ public class File_Channel {
             binChannel.write(ByteBuffer.wrap(outputString));
             binChannel.position(str2Pos);
             binChannel.write(ByteBuffer.wrap(outputString2));
+            */
+
   /*          ByteBuffer readBuffer = ByteBuffer.allocate(100);
             channel.read(readBuffer);
             readBuffer.flip();
